@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import DeviceManagement.entities.device.Device;
+import DeviceManagement.entities.device.DeviceRepository;
 import Exceptions.NotFoundException;
 
 @Service
@@ -13,6 +15,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private DeviceRepository devRepo;
 	
 	public List<User> getAllUser(){
 		return userRepo.findAll();
@@ -23,7 +28,28 @@ public class UserService {
 		return userRepo.save(newUser);
 	}
 	
-	public User findById(UUID id) throws NotFoundException {
-		return userRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
+	public User findById(UUID userId) throws NotFoundException {
+		return userRepo.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+	}
+	
+	public User updateUserbyId(UserBodyRequest user, UUID userId) {
+		User userFound = userRepo.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+		userFound.setName(user.getName());
+		userFound.setSurname(user.getSurname());
+		userFound.setEmail(user.getEmail());
+		userFound.setPassword(user.getPassword());
+		return userRepo.save(userFound);
+	}
+	
+	public void deleteUser(UUID userId) {
+		userRepo.deleteById(userId);
+	}
+	
+	public void addDeviceToUser(UUID userId, int devId) {
+		User userFound = userRepo.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+		Device devFound = devRepo.findById(devId).orElseThrow(() -> new NotFoundException(devId));
+		devFound.setUser(userFound);
+		userFound.getDevices().add(devFound);
+		userRepo.save(userFound);
 	}
 }

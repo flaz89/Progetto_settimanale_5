@@ -1,5 +1,6 @@
 package DeviceManagement.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	
+	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 //		disabilita CORS = Quando un browser fa una richiesta da un'origine (dominio, protocollo e porta) diversa rispetto a quella del server, 
 //		il server può rispondere con determinati header CORS per specificare quali origini sono autorizzate a accedere alle risorse
@@ -25,7 +26,7 @@ public class SecurityConfig {
 		
 //		sto specificando una regola di autorizzazione che dice che tutte le richieste corrispondenti al pattern di URL "/home/**" sono consentite a tutti gli utenti, 
 //		indipendentemente dall'autenticazione o dai ruoli.
-		//http.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**").permitAll());
 		
 		
 		return http.build();

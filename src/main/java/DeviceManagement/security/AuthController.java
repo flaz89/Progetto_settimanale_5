@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import DeviceManagement.entities.device.Device;
 import DeviceManagement.entities.user.User;
 import DeviceManagement.entities.user.UserBodyRequest;
 import DeviceManagement.entities.user.UserService;
@@ -22,10 +23,7 @@ public class AuthController {
 	private UserService userSrv;
 	
 	
-	@GetMapping("/prova")
-	public String prova() {
-		return "richiesta GET effettuata";
-	}
+	
 	
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -33,4 +31,5 @@ public class AuthController {
 		System.out.println("Utente registrato con successo: \n" + user);
 		return userSrv.saveUser(user);
 	}
+
 }
