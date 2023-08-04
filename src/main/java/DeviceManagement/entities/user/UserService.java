@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import DeviceManagement.entities.device.Device;
 import DeviceManagement.entities.device.DeviceRepository;
+import DeviceManagement.entities.device.DeviceStatus;
 import Exceptions.NotFoundException;
 
 @Service
@@ -49,6 +50,7 @@ public class UserService {
 		User userFound = userRepo.findById(userId).orElseThrow(() -> new NotFoundException(userId));
 		Device devFound = devRepo.findById(devId).orElseThrow(() -> new NotFoundException(devId));
 		devFound.setUser(userFound);
+		devFound.setStatus(DeviceStatus.ASSIGNED);
 		userFound.getDevices().add(devFound);
 		userRepo.save(userFound);
 	}

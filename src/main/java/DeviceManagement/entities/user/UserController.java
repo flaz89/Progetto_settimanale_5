@@ -58,8 +58,8 @@ public class UserController {
 	
 	@PutMapping("users/{userId}/{devId}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<String> addDeviceToUser(@PathVariable UUID userId, @PathVariable int devId) {
+	public String addDeviceToUser(@PathVariable UUID userId, @PathVariable int devId) {
         userSrv.addDeviceToUser(userId, devId);
-        return ResponseEntity.ok("Dispositivo aggiunto all'utente");
+        return "Dispositivo aggiunto all'utente";
     }
 }
